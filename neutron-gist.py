@@ -40,6 +40,8 @@ def main():
         loglevel = logging.WARN
 
     logging.basicConfig(level=loglevel)
+    logging.warn('collecting neutron configuration information')
+    logging.warn('run with --verbose to see command execution')
 
     g = gist.Gist(args.description)
 
