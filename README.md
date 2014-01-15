@@ -27,7 +27,8 @@ like this:
 
 If you wish to obfuscate ip addresses or anything else before
 uploading the data you can insert `sed` (or another tool of your
-choice) into the pipeline:
+choice) into the pipeline.  For example, to transform all ip addresses
+of the form 10.1.3.nnn into x.x.x.nnn:
 
     sudo ./network-gist.py |
       sed 's/10.1.3.\([0-9]*\)/x.x.x.\1/g' |
