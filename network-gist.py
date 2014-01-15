@@ -46,6 +46,14 @@ def main():
     g = gist.Gist(args.description)
 
     g.add('ovs-vsctl-show.txt',       run('ovs-vsctl show'))
+    g.add('ovs-dpctl-show.txt',       run('ovs-dpctl show'))
+
+    for dev in run('ovs-vsctl list-br').split('\n'):
+        if not dev:
+            continue
+
+        g.add('ovs-ofctl-dump-flows-%s' % dev,
+              run('ovs-ofctl dump-flows %s' % dev))
 
     for ns in [ 'global' ] + run('ip netns').split('\n'):
         if not ns:
@@ -57,7 +65,9 @@ def main():
             '# ip route',
             ns_run(ns, 'ip route'),
             '# iptables-save',
-            ns_run(ns, 'iptables-save')
+            ns_run(ns, 'iptables-save'),
+            '# ss -tlnp',
+            ns_run(ns, 'ss -tlnp')
         ]
 
         g.add(ns, '\n'.join(data))
